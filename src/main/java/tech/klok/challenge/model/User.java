@@ -2,11 +2,13 @@ package tech.klok.challenge.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -29,14 +33,14 @@ import tech.klok.challenge.model.categories.MaritalStatus;
 import tech.klok.challenge.model.categories.Sex;
 
 @Entity
-@Table(name="user")
+@Table(name="t_user")
 public class User implements Serializable, UserDetails{
 	
 	private static final long serialVersionUID = 2187982020549437111L;
 	
 	
 	@Id
-	@Column(name="id")
+	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
@@ -49,7 +53,7 @@ public class User implements Serializable, UserDetails{
 	@NotEmpty
 	@NotBlank
 	@NotNull
-	@Column(name="username")
+	@Column(name="password")
 	private String password;
 	
 	@NotEmpty
@@ -58,18 +62,25 @@ public class User implements Serializable, UserDetails{
 	@CPF
 	@Column(name="cpf")
 	private String cpf;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="birth_date")
+	private Date birthDate;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name="gender")
 	private Sex gender;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name="marital_status")
 	private MaritalStatus maritalStatus;
 	
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="user_if_fk")
+	@JoinColumn(name="user_id_fk")
 	private Set<Adhesion> adhesions = new HashSet<>();
 	
+	@ElementCollection
 	private Collection<SimpleGrantedAuthority> authorities;
 
 	private Boolean credentialsNonExpired;
@@ -194,6 +205,14 @@ public class User implements Serializable, UserDetails{
 
 	public void setMaritalStatus(MaritalStatus maritalStatus) {
 		this.maritalStatus = maritalStatus;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 	
 }

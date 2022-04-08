@@ -2,14 +2,18 @@ package tech.klok.challenge.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,28 +21,30 @@ import javax.validation.constraints.Min;
 
 
 @Entity
-@Table(name="adhesion")
+@Table(name="t_adhesion")
 public class Adhesion implements Serializable{
 
 	private static final long serialVersionUID = 4541908573080844821L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="adhesion_id")
 	private Long id;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="aquisition_date")
-	private LocalDate aquisitionDate;
+	private Date aquisitionDate;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="charging_date")
-	private LocalDate chargingDate;
+	private Date chargingDate;
 	
 	@Column(name="amount")
 	@Min(value=0)
 	private Long amount;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="adhesion_id_fk")
 	private Set<Charge> charges = new HashSet<>();
 
 	public Long getId() {
@@ -49,19 +55,20 @@ public class Adhesion implements Serializable{
 		this.id = id;
 	}
 
-	public LocalDate getAquisitionDate() {
+
+	public Date getAquisitionDate() {
 		return aquisitionDate;
 	}
 
-	public void setAquisitionDate(LocalDate aquisitionDate) {
+	public void setAquisitionDate(Date aquisitionDate) {
 		this.aquisitionDate = aquisitionDate;
 	}
 
-	public LocalDate getChargingDate() {
+	public Date getChargingDate() {
 		return chargingDate;
 	}
 
-	public void setChargingDate(LocalDate chargingDate) {
+	public void setChargingDate(Date chargingDate) {
 		this.chargingDate = chargingDate;
 	}
 

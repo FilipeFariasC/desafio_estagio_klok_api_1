@@ -12,6 +12,5 @@ import tech.klok.challenge.model.User;
 @Repository
 public interface UserRepository extends	JpaRepository<User, Long>{
 	
-	@Query("SELECT user FROM user WHERE user.username = :username")
 	public Optional<User> findByUsername(@Param("username") String username);
 }
