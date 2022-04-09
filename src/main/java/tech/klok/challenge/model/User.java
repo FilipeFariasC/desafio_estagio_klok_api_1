@@ -1,6 +1,7 @@
 package tech.klok.challenge.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -18,8 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,6 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import tech.klok.challenge.model.categories.MaritalStatus;
 import tech.klok.challenge.model.categories.Sex;
+import tech.klok.challenge.validation.constraints.ValidAge;
 
 @Entity
 @Table(name="t_user")
@@ -63,9 +63,9 @@ public class User implements Serializable, UserDetails{
 	@Column(name="cpf")
 	private String cpf;
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name="birth_date")
-	private Date birthDate;
+	@Column(name="birth_date", columnDefinition = "DATE")
+	@ValidAge
+	private LocalDate birthDate;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name="gender")
@@ -207,12 +207,14 @@ public class User implements Serializable, UserDetails{
 		this.maritalStatus = maritalStatus;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	
 	
 }

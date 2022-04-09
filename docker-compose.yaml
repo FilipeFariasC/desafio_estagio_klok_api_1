@@ -1,0 +1,48 @@
+version: '3.9'
+services:
+    db-estagio:
+        container_name: db-estagio-dev
+        image: postgres:14.2-alpine
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_MULTIPLE_DATABASES: db-estagio-service-a, db-estagio-service-b
+            POSTGRES_USER: klok_dev_est
+            POSTGRES_PASSWORD: klokdevest
+        volumes:
+            - db:/var/lib/postgresql/data
+
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3.7.5-management-alpine
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        environment:
+            RABBITMQ_DEFAULT_USER: klok_dev_est
+            RABBITMQ_DEFAULT_PASS: klok_dev_est
+
+    klok_service_a:
+        container_name: klok-service-a
+        image: openjdk:17-alpine
+        ports:
+            - "8080:8080"
+        command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /xpto/klok-service-a.jar
+        volumes:
+            - ./klok-service-a/target/hub-0.0.1-SNAPSHOT.jar:/xpto/klok-service-a.jar
+        links:
+            - db-estagio
+            - rabbitmq
+    
+    klok_service_b:
+        container_name: klok_service_b
+        image: openjdk:17-alpine
+        ports:
+            - "8081:8080"
+        command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /xpto/klok_service_b.jar
+        volumes:
+            - ./klok_service_b/target/hub-0.0.1-SNAPSHOT.jar:/xpto/klok_service_b.jar
+        links:
+            - db-estagio
+            - rabbitmq
