@@ -5,3 +5,5 @@ Esse é o repositório onde ficará armazenado o código-fonte e testes a 1ª AP
 API de gerenciamento de adesões e agendamento de cobranças.
 
 Requisitos no desafio [neste link](estagio-dev-klok-tech.pdf).
+
+Workspace no Postman [neste link](https://www.postman.com/filipefariasc/workspace/desafio-klok-tech-estagio-api-1).
