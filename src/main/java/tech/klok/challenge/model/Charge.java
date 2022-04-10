@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import tech.klok.challenge.model.categories.ChargeStatus;
 
@@ -26,13 +27,15 @@ public class Charge implements Serializable{
 	@Column(name="charge_id")
 	private Long id;
 	
-	@Temporal(TemporalType.DATE)
+	@Min(value=0)
+	@Column(name="amount")
+	private Double amount;
+	
+	@Column(name="charging_date", columnDefinition = "DATE")
 	private Date chargingDate;
 	
+	@NotNull
 	private ChargeStatus status;
-	
-	@Min(value=0)
-	private Double amount;
 
 
 	public Date getChargingDate() {

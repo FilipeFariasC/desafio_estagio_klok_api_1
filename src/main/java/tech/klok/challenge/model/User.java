@@ -3,7 +3,6 @@ package tech.klok.challenge.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +37,6 @@ public class User implements Serializable, UserDetails{
 	
 	private static final long serialVersionUID = 2187982020549437111L;
 	
-	
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -69,7 +67,7 @@ public class User implements Serializable, UserDetails{
 
 	@Enumerated(EnumType.STRING)
 	@Column(name="gender")
-	private Sex gender;
+	private Sex sex;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="marital_status")
@@ -82,11 +80,10 @@ public class User implements Serializable, UserDetails{
 	
 	@ElementCollection
 	private Collection<SimpleGrantedAuthority> authorities;
-
-	private Boolean credentialsNonExpired;
-	private Boolean accountNonExpired;
-	private Boolean accountNonLocked;
-	private Boolean enabled;
+	
+	public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -105,22 +102,22 @@ public class User implements Serializable, UserDetails{
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return accountNonExpired;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return accountNonLocked;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return credentialsNonExpired;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return enabled;
+		return true;
 	}
 
 	public Long getId() {
@@ -147,38 +144,6 @@ public class User implements Serializable, UserDetails{
 		this.adhesions = adhesions;
 	}
 
-	public Boolean getCredentialsNonExpired() {
-		return credentialsNonExpired;
-	}
-
-	public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
-		this.credentialsNonExpired = credentialsNonExpired;
-	}
-
-	public Boolean getAccountNonExpired() {
-		return accountNonExpired;
-	}
-
-	public void setAccountNonExpired(Boolean accountNonExpired) {
-		this.accountNonExpired = accountNonExpired;
-	}
-
-	public Boolean getAccountNonLocked() {
-		return accountNonLocked;
-	}
-
-	public void setAccountNonLocked(Boolean accountNonLocked) {
-		this.accountNonLocked = accountNonLocked;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -187,16 +152,12 @@ public class User implements Serializable, UserDetails{
 		this.password = password;
 	}
 
-	public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
-		this.authorities = authorities;
+	public Sex getSex() {
+		return sex;
 	}
 
-	public Sex getGender() {
-		return gender;
-	}
-
-	public void setGender(Sex gender) {
-		this.gender = gender;
+	public void setSex(Sex sex) {
+		this.sex = sex;
 	}
 
 	public MaritalStatus getMaritalStatus() {

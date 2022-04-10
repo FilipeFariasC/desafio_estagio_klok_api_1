@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tech.klok.challenge.dto.UserDto;
+import tech.klok.challenge.dto.post.UserPostDto;
 import tech.klok.challenge.exception.NonUniqueUsernameException;
 import tech.klok.challenge.exception.UserNotFoundException;
 import tech.klok.challenge.model.User;
@@ -21,45 +22,47 @@ public class UserService {
 	@Autowired
 	private ModelMapper userMapper;
 	
-	public UserDto save(User user) throws NonUniqueUsernameException{
-		Optional<User> register = userRepo.findByUsername(user.getUsername());
+	public User create(UserPostDto created) throws NonUniqueUsernameException{
+		Optional<User> user = userRepo.findByUsername(created.getUsername());
 		
-		if(register.isPresent())
-			throw new NonUniqueUsernameException(user.getUsername());
+		if(user.isPresent())
+			throw new NonUniqueUsernameException(created.getUsername());
+
+		User newUser = mapToUser(created);
 		
-		return mapToUserDto(userRepo.save(user));
+		return userRepo.save(newUser);
 	}
 	
 	public List<User> getAll(){
 		return userRepo.findAll();
 	}
 	
-	public UserDto findById(Long id) throws UserNotFoundException{
+	public User findById(Long id) throws UserNotFoundException{
 		Optional<User> user = userRepo.findById(id);
 		
 		if(user.isEmpty())
 			throw new UserNotFoundException(id);
 		
-		return mapToUserDto(user.get());
+		return user.get();
 	}
-	public UserDto findByUsername(String username) throws UserNotFoundException{
+	public User findByUsername(String username) throws UserNotFoundException{
 		Optional<User> user = userRepo.findByUsername(username);
 		
 		if(user.isEmpty())
 			throw new UserNotFoundException(username);
 		
-		return mapToUserDto(user.get());
+		return user.get();
 	}
-	public UserDto update(Long id, UserDto userDto) throws UserNotFoundException {
+	public User update(Long id, UserPostDto userPostDto) throws UserNotFoundException {
 		Optional<User> user = userRepo.findById(id);
 		
 		if(user.isEmpty())
 			throw new UserNotFoundException(id);
+
+		User updated = mapToUser(userPostDto);
+		updated.setId(id);
 		
-		User updated = userMapper.map(userDto, User.class);
-		updated.setId(user.get().getId());
-		
-		return mapToUserDto(userRepo.save(updated));
+		return userRepo.save(updated);
 	}
 	
 	public void delete(Long id) throws UserNotFoundException{
@@ -68,11 +71,11 @@ public class UserService {
 		if(register.isEmpty())
 			throw new UserNotFoundException(id);
 		
-		
 		userRepo.delete(register.get());
 	}
 	
-	private UserDto mapToUserDto(User user) {
-		return userMapper.map(user, UserDto.class);
+	private User mapToUser(UserPostDto userPostDto) {
+		return userMapper.map(userPostDto, User.class);
 	}
+	
 }

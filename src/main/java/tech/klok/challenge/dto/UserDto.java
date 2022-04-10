@@ -2,32 +2,31 @@ package tech.klok.challenge.dto;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.br.CPF;
-
 import tech.klok.challenge.model.categories.MaritalStatus;
 import tech.klok.challenge.model.categories.Sex;
 
 public class UserDto {
-
+	
+	private Long id;
+	
 	private String username;
 	
 	private String cpf;
 	
 	private Date birthDate;
 
-	private Sex gender;
+	private Sex sex;
 	
 	private MaritalStatus maritalStatus;
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -51,12 +50,12 @@ public class UserDto {
 		this.birthDate = birthDate;
 	}
 
-	public Sex getGender() {
-		return gender;
+	public Sex getSex() {
+		return sex;
 	}
 
-	public void setGender(Sex gender) {
-		this.gender = gender;
+	public void setSex(Sex sex) {
+		this.sex = sex;
 	}
 
 	public MaritalStatus getMaritalStatus() {

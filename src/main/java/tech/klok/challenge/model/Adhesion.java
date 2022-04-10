@@ -2,7 +2,6 @@ package tech.klok.challenge.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,10 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -31,21 +30,29 @@ public class Adhesion implements Serializable{
 	@Column(name="adhesion_id")
 	private Long id;
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name="aquisition_date")
-	private Date aquisitionDate;
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id_fk")
+	private Product product;
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name="charging_date")
-	private Date chargingDate;
+	@Column(name="aquisition_date", columnDefinition = "DATE")
+	private LocalDate aquisitionDate;
+	
+	@NotNull
+	@Column(name="charging_day")
+	private Integer chargingDay;
 	
 	@Column(name="amount")
 	@Min(value=0)
-	private Long amount;
+	private Double amount;
+	
+	@Column(name="number_of_installments")
+	private Integer numberOfInstallments;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="adhesion_id_fk")
 	private Set<Charge> charges = new HashSet<>();
+	
+	
 
 	public Long getId() {
 		return id;
@@ -55,28 +62,27 @@ public class Adhesion implements Serializable{
 		this.id = id;
 	}
 
-
-	public Date getAquisitionDate() {
+	public LocalDate getAquisitionDate() {
 		return aquisitionDate;
 	}
 
-	public void setAquisitionDate(Date aquisitionDate) {
+	public void setAquisitionDate(LocalDate aquisitionDate) {
 		this.aquisitionDate = aquisitionDate;
 	}
 
-	public Date getChargingDate() {
-		return chargingDate;
+	public Integer getChargingDay() {
+		return chargingDay;
 	}
 
-	public void setChargingDate(Date chargingDate) {
-		this.chargingDate = chargingDate;
+	public void setChargingDay(Integer chargingDay) {
+		this.chargingDay = chargingDay;
 	}
 
-	public Long getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Long amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
@@ -87,5 +93,22 @@ public class Adhesion implements Serializable{
 	public void setCharges(Set<Charge> charges) {
 		this.charges = charges;
 	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Integer getNumberOfInstallments() {
+		return numberOfInstallments;
+	}
+
+	public void setNumberOfInstallments(Integer numberOfInstallments) {
+		this.numberOfInstallments = numberOfInstallments;
+	}
+	
 	
 }

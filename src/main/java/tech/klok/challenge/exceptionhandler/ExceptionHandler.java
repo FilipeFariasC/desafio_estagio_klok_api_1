@@ -28,7 +28,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
 		//define a mensagem que será enviada em caso de erro de conversao de entidade
-		
+
 		List<Error> errors = Arrays.asList(
 				new Error(
 						messageSource.getMessage("message.invalid", null, LocaleContextHolder.getLocale()),
