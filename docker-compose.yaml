@@ -30,7 +30,7 @@ services:
             - "8080:8080"
         command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /xpto/klok-service-a.jar
         volumes:
-            - ./klok-service-a/target/hub-0.0.1-SNAPSHOT.jar:/xpto/klok-service-a.jar
+            - ./klok-service-a/target/challenge-0.1-SNAPSHOT.jar:/xpto/klok-service-a.jar
         links:
             - db-estagio
             - rabbitmq
@@ -42,7 +42,7 @@ services:
             - "8081:8080"
         command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /xpto/klok_service_b.jar
         volumes:
-            - ./klok_service_b/target/hub-0.0.1-SNAPSHOT.jar:/xpto/klok_service_b.jar
+            - ./klok_service_b/target/challenge-0.1-SNAPSHOT.jar:/xpto/klok_service_b.jar
         links:
             - db-estagio
             - rabbitmq
