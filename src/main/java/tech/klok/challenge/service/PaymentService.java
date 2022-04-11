@@ -17,8 +17,6 @@ public class PaymentService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-
-	
 	public static final String url = "http://localhost:8081/api/payments/";
 	
 	public Payment create(PaymentPostDto paymentDto) throws RestClientException{
