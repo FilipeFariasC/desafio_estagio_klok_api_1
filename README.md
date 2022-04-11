@@ -1,4 +1,4 @@
-# Desafio de Projeto de Estágio - Klok Tech
+# Desafio API 1 de Projeto de Estágio - Klok Tech
 
 Esse é o repositório onde ficará armazenado o código-fonte e testes a 1ª API requisitada.
 
