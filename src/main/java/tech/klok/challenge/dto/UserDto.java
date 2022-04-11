@@ -1,6 +1,6 @@
 package tech.klok.challenge.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import tech.klok.challenge.model.categories.MaritalStatus;
 import tech.klok.challenge.model.categories.Sex;
@@ -13,7 +13,7 @@ public class UserDto {
 	
 	private String cpf;
 	
-	private Date birthDate;
+	private LocalDate birthDate;
 
 	private Sex sex;
 	
@@ -42,11 +42,11 @@ public class UserDto {
 		this.cpf = cpf;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

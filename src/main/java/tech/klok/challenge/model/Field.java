@@ -31,6 +31,7 @@ public class Field implements Serializable{
 	private String name;
 	
 	@Column(name="required")
+	@NotNull
 	private boolean required;
 
 	public Long getId() {

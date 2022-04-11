@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -36,6 +34,8 @@ public class Charge implements Serializable{
 	
 	@NotNull
 	private ChargeStatus status;
+	
+	private Payment payment;
 
 
 	public Date getChargingDate() {
@@ -55,6 +55,18 @@ public class Charge implements Serializable{
 	}
 	public void setStatus(ChargeStatus status) {
 		this.status = status;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 	
 }

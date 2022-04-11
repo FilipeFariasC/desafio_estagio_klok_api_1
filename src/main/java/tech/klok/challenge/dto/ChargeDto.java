@@ -1,13 +1,6 @@
 package tech.klok.challenge.dto;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 import tech.klok.challenge.model.categories.ChargeStatus;
 
@@ -17,7 +10,7 @@ public class ChargeDto {
 	
 	private Double amount;
 	
-	private Date chargingDate;
+	private LocalDate chargingDate;
 	
 	private ChargeStatus status;
 
@@ -37,11 +30,11 @@ public class ChargeDto {
 		this.amount = amount;
 	}
 
-	public Date getChargingDate() {
+	public LocalDate getChargingDate() {
 		return chargingDate;
 	}
 
-	public void setChargingDate(Date chargingDate) {
+	public void setChargingDate(LocalDate chargingDate) {
 		this.chargingDate = chargingDate;
 	}
 

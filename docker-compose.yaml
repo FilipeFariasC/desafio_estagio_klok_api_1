@@ -11,7 +11,7 @@ services:
             POSTGRES_USER: klok_dev_est
             POSTGRES_PASSWORD: klokdevest
         volumes:
-            - db:/var/lib/postgresql/data
+            - ./db:/var/lib/postgresql/data
 
     rabbitmq:
         container_name: rabbitmq
