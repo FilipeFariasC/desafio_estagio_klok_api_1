@@ -1,6 +1,7 @@
 package tech.klok.challenge.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,6 +57,23 @@ public class Field implements Serializable{
 
 	public void setRequired(boolean required) {
 		this.required = required;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, required);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Field other = (Field) obj;
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && required == other.required;
 	}
 
 	

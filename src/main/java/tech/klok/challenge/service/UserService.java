@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tech.klok.challenge.dto.UserDto;
@@ -22,6 +23,9 @@ public class UserService {
 	@Autowired
 	private ModelMapper userMapper;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	public User create(UserPostDto created) throws NonUniqueUsernameException{
 		Optional<User> user = userRepo.findByUsername(created.getUsername());
 		
@@ -29,6 +33,7 @@ public class UserService {
 			throw new NonUniqueUsernameException(created.getUsername());
 
 		User newUser = mapToUser(created);
+		newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 		
 		return userRepo.save(newUser);
 	}

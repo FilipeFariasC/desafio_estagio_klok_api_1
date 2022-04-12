@@ -3,6 +3,8 @@ package tech.klok.challenge.model.categories;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Sex {
 	MALE("Male", 0L),
 	FEMALE("Female", 1L);
@@ -18,6 +20,7 @@ public enum Sex {
 	public Long getId() {
 		return id;
 	}
+	@JsonValue
 	public String getSex() {
 		return sex;
 	}

@@ -1,11 +1,12 @@
 package tech.klok.challenge.dto.mapper;
 
+import java.time.LocalDate;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tech.klok.challenge.dto.AdhesionDto;
-import tech.klok.challenge.dto.ProductDto;
 import tech.klok.challenge.dto.post.AdhesionPostDto;
 import tech.klok.challenge.exception.ProductNotFoundException;
 import tech.klok.challenge.model.Adhesion;
@@ -44,7 +45,7 @@ public class AdhesionMapper {
 		Adhesion adhesion = new Adhesion();
 		
 		adhesion.setAmount(adhesionPostDto.getAmount());
-		adhesion.setAquisitionDate(adhesionPostDto.getAquisitionDate());
+		adhesion.setAquisitionDate(LocalDate.now());
 		adhesion.setChargingDay(adhesionPostDto.getChargingDay());
 		Product product = productService.findById(adhesionPostDto.getProductId());
 		adhesion.setProduct(product);

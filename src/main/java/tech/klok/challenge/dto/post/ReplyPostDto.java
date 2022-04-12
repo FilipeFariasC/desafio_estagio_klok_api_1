@@ -1,8 +1,7 @@
 package tech.klok.challenge.dto.post;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import tech.klok.challenge.model.Field;
 
 public class ReplyPostDto {
 	
@@ -10,6 +9,7 @@ public class ReplyPostDto {
 	private Long fieldId;
 	
 	@NotNull
+	@NotEmpty
 	private String value;
 
 

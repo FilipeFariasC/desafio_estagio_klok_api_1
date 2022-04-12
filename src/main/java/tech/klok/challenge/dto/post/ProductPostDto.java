@@ -3,11 +3,10 @@ package tech.klok.challenge.dto.post;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import tech.klok.challenge.dto.FieldDto;
 
 public class ProductPostDto {
 	
@@ -17,7 +16,7 @@ public class ProductPostDto {
 	private String name;
 	
 	@NotNull
-	private Set<FieldDto> fields = new HashSet<>();
+	private Set<@Valid FieldPostDto> fields = new HashSet<>();
 
 	public String getName() {
 		return name;
@@ -27,14 +26,12 @@ public class ProductPostDto {
 		this.name = name;
 	}
 
-	public Set<FieldDto> getFields() {
+	public Set<FieldPostDto> getFields() {
 		return fields;
 	}
 
-	public void setFields(Set<FieldDto> fields) {
+	public void setFields(Set<FieldPostDto> fields) {
 		this.fields = fields;
 	}
-	
-	
 	
 }

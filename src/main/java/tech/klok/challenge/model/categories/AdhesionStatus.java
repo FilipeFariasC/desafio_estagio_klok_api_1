@@ -3,6 +3,8 @@ package tech.klok.challenge.model.categories;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum AdhesionStatus {
 	ACTIVE("Active",0L),
 	FINISHED("Finished", 1L);
@@ -18,6 +20,7 @@ public enum AdhesionStatus {
 	public Long getId() {
 		return id;
 	}
+	@JsonValue
 	public String getStatus() {
 		return status;
 	}

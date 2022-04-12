@@ -21,7 +21,7 @@ public class AuthenticationConfiguration extends WebSecurityConfigurerAdapter {
 	private JwtRequestFilter requestFilter;
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	@Override

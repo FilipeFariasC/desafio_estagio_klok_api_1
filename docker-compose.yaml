@@ -7,7 +7,7 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_MULTIPLE_DATABASES: db-estagio-service-a, db-estagio-service-b
+            POSTGRES_MULTIPLE_DATABASES: klok_dev_est_api_1, klok_dev_est_api_1
             POSTGRES_USER: klok_dev_est
             POSTGRES_PASSWORD: klokdevest
         volumes:
@@ -28,9 +28,12 @@ services:
         image: openjdk:17-alpine
         ports:
             - "8080:8080"
-        command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /xpto/klok-service-a.jar
+        command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /executable/klok-service-a.jar
+        depends_on:
+            - db-estagio
+            - rabbitmq
         volumes:
-            - ./klok-service-a/target/challenge-0.1-SNAPSHOT.jar:/xpto/klok-service-a.jar
+            - ./desafio_estagio_klok_tech_api_1/target/challenge-0.1-SNAPSHOT.jar:/executable/klok-service-a.jar
         links:
             - db-estagio
             - rabbitmq
@@ -40,9 +43,12 @@ services:
         image: openjdk:17-alpine
         ports:
             - "8081:8080"
-        command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /xpto/klok_service_b.jar
+        command: java -D user.timezone=GMT-03:00 -Xmx512m -Xmx256m -jar /executable/klok_service_b.jar
+        depends_on:
+            - db-estagio
+            - rabbitmq
         volumes:
-            - ./klok_service_b/target/challenge-0.1-SNAPSHOT.jar:/xpto/klok_service_b.jar
+            - ./desafio_estagio_klok_tech_api_1/target/challenge-0.1-SNAPSHOT.jar:/executable/klok_service_b.jar
         links:
             - db-estagio
             - rabbitmq

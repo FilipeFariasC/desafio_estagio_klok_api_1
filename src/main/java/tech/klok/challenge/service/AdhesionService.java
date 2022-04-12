@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import tech.klok.challenge.dto.mapper.AdhesionMapper;
 import tech.klok.challenge.dto.post.AdhesionPostDto;
@@ -26,7 +27,7 @@ import tech.klok.challenge.repository.AdhesionRepository;
 import tech.klok.challenge.repository.FieldRepository;
 import tech.klok.challenge.repository.UserRepository;
 
-
+@Service
 public class AdhesionService {
 	@Autowired
 	private AdhesionRepository adhesionRepo;
@@ -47,24 +48,35 @@ public class AdhesionService {
 	@Autowired
 	private ModelMapper mapper;
 	
+	private Set<Field> fields;
+	
 	public Adhesion create(AdhesionPostDto adhesionPostDto, String username) 
 			throws ProductNotFoundException, 
 				UserNotFoundException, 
 				FieldRequiredException, 
 				FieldNotExistException {
-		Adhesion adhesion = adhesionMapper.fromPostDtoToAdhesion(adhesionPostDto);
+		
+		Adhesion adhesion = mapFromDtoToAdhesion(adhesionPostDto);
+		
 		User user = userService.findByUsername(username);
+		
 		Product product = productService.findById(adhesionPostDto.getProductId());
 		
+		fields = product.getFields();
 		
-		Set<Field> fields = validateRequiredFields(adhesionPostDto.getProductId(), adhesionPostDto.getReplies());
-		validateNonExistingFields(fields, adhesionPostDto.getReplies());
+		validateRequiredFields(adhesionPostDto.getReplies());
+		
+		validateNonExistingFields(adhesionPostDto.getReplies());
 		
 		convertFieldIdToField(adhesion, adhesionPostDto.getReplies());
 		
 		adhesion.setProduct(product);
 		adhesion.setAquisitionDate(LocalDate.now());
-		user.getAdhesions().add(adhesion);
+		
+		Adhesion created = adhesionRepo.save(adhesion);
+		
+		user.addAdhesion(created);
+		
 		userRepo.save(user);
 		
 		return adhesion;
@@ -83,7 +95,7 @@ public class AdhesionService {
 		return adhesion.get();
 	}
 	public Adhesion update(Long id, AdhesionPostDto adhesionPostDto, String username) throws AdhesionNotFoundException, ProductNotFoundException, UserNotFoundException, FieldRequiredException, FieldNotExistException {
-		Adhesion adhesion = findById(id);
+		findById(id);
 		
 		return this.create(adhesionPostDto, username);
 	}
@@ -97,9 +109,7 @@ public class AdhesionService {
 	}
 	
 	
-	private Set<Field> validateRequiredFields(Long productId, Set<ReplyPostDto> replies) throws FieldRequiredException {
-		Set<Field> fields = fieldRepo.findFieldsByProductId(productId);
-		
+	private void validateRequiredFields(Set<ReplyPostDto> replies) throws FieldRequiredException {
 		Set<Long> ids = replies.stream()
 				.map(ReplyPostDto::getFieldId)
 				.collect(Collectors.toSet());
@@ -109,10 +119,9 @@ public class AdhesionService {
 				throw new FieldRequiredException(field);
 			}
 		}
-		return fields;
 	}
 	
-	private void validateNonExistingFields(Set<Field> fields, Set<ReplyPostDto> replies) throws FieldNotExistException {
+	private void validateNonExistingFields(Set<ReplyPostDto> replies) throws FieldNotExistException {
 		Set<Long> ids = fields.stream().map(Field::getId).collect(Collectors.toSet());
 		
 		for (ReplyPostDto reply: replies) {
@@ -123,15 +132,32 @@ public class AdhesionService {
 	}
 	
 	private void convertFieldIdToField(Adhesion adhesion, Set<ReplyPostDto> replies) {
-		replies.stream()
-			.forEach((replyDto)->{
-				Reply reply = mapper.map(replyDto, Reply.class);
-				Field field = fieldRepo.findById(replyDto.getFieldId()).get();
-				
-				reply.setField(field);
-				adhesion.getReplies().add(reply);
-				
-			}
-		);
+		for (ReplyPostDto replyDto : replies) {
+			Field field = fieldRepo.findById(replyDto.getFieldId()).get();
+			Reply reply = mapFromDtoToReply(replyDto);
+			reply.setField(field);
+			
+			adhesion.addReply(reply);
+			
+		}
+	}
+	private Reply mapFromDtoToReply(ReplyPostDto replyDto) {
+		Reply reply = new Reply();
+		
+		reply.setValue(replyDto.getValue());
+		
+		return reply;
+	}
+	
+	private Adhesion mapFromDtoToAdhesion(AdhesionPostDto dto) {
+		Adhesion adhesion = new Adhesion();
+		
+		adhesion.setChargingDay(dto.getChargingDay());
+		adhesion.setNumberOfInstallments(dto.getNumberOfInstallments());
+		adhesion.setAmount(dto.getAmount());
+		adhesion.setAquisitionDate(LocalDate.now());
+		
+		
+		return adhesion;
 	}
 }

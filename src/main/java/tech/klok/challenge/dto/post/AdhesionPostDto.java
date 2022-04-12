@@ -1,17 +1,16 @@
 package tech.klok.challenge.dto.post;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class AdhesionPostDto {
+	
 	@NotNull
 	private Long productId;
 	
-	@NotNull
-	private LocalDate aquisitionDate;
 	@NotNull
 	private Integer chargingDay;
 	
@@ -19,7 +18,10 @@ public class AdhesionPostDto {
 	private Double amount;
 	
 	@NotNull
-	private Set<ReplyPostDto> replies = new HashSet<>();
+	private Set<@Valid ReplyPostDto> replies = new HashSet<>();
+	
+	@NotNull
+	private Integer numberOfInstallments;
 
 	public Long getProductId() {
 		return productId;
@@ -27,16 +29,6 @@ public class AdhesionPostDto {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
-	}
-
-
-
-	public LocalDate getAquisitionDate() {
-		return aquisitionDate;
-	}
-
-	public void setAquisitionDate(LocalDate aquisitionDate) {
-		this.aquisitionDate = aquisitionDate;
 	}
 
 	public Integer getChargingDay() {
@@ -63,6 +55,15 @@ public class AdhesionPostDto {
 		this.replies = replies;
 	}
 
+	public Integer getNumberOfInstallments() {
+		return numberOfInstallments;
+	}
+
+	public void setNumberOfInstallments(Integer numberOfInstallments) {
+		this.numberOfInstallments = numberOfInstallments;
+	}
+
+	
 	
 	
 }

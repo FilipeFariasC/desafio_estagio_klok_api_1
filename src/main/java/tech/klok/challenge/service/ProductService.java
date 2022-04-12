@@ -2,14 +2,16 @@ package tech.klok.challenge.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tech.klok.challenge.dto.ProductDto;
 import tech.klok.challenge.dto.post.ProductPostDto;
 import tech.klok.challenge.exception.ProductNotFoundException;
+import tech.klok.challenge.model.Field;
 import tech.klok.challenge.model.Product;
 import tech.klok.challenge.repository.ProductRepository;
 
@@ -23,6 +25,14 @@ public class ProductService {
 	
 	public Product create(ProductPostDto created){
 		Product product = mapToProduct(created);
+		
+		Set<Field> fields = created.getFields()
+				.stream()
+				.map(
+					(field)->productMapper.map(field, Field.class))
+				.collect(Collectors.toSet());
+		
+		product.setFields(fields);
 		
 		return productRepo.save(product);
 	}

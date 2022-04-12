@@ -7,12 +7,14 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -33,9 +35,9 @@ public class Product implements Serializable {
 	@NotNull
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="product_id_fk")
-	private Set<Field> fields = new HashSet<>();
+	private Set<@Valid Field> fields = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -59,8 +61,7 @@ public class Product implements Serializable {
 
 	public void setFields(Set<Field> fields) {
 		this.fields = fields;
-	}
-	
+	}	
 	
 	
 }

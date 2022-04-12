@@ -2,14 +2,24 @@ package tech.klok.challenge.dto.post;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PaymentPostDto {
-	private Long id;
+	
+	@NotNull
+	private Long idCharge;
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@NotNull
 	private LocalDate payday;
-	public Long getId() {
-		return id;
+	
+	public Long getIdCharge() {
+		return idCharge;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdCharge(Long id) {
+		this.idCharge = id;
 	}
 	public LocalDate getPayday() {
 		return payday;

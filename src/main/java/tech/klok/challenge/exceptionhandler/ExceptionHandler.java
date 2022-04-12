@@ -28,11 +28,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
 		//define a mensagem que será enviada em caso de erro de conversao de entidade
-
+		
 		List<Error> errors = Arrays.asList(
 				new Error(
 						messageSource.getMessage("message.invalid", null, LocaleContextHolder.getLocale()),
-						exception.getCause().toString()));
+						exception.getMessage()));
 		
 		return handleExceptionInternal(exception, errors, headers, HttpStatus.BAD_REQUEST, request);
 	}
@@ -50,7 +50,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 		return bindingResult.getFieldErrors()
 			.stream()
 			.map((field) ->
-				new Error(
+			new Error(
 					messageSource.getMessage(field, LocaleContextHolder.getLocale()), // localiza a mensagem para o usuário
 					field.toString()) // stacktrace como mensagem para o desenvolvedor
 			).toList();

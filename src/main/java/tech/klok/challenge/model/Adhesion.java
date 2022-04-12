@@ -16,7 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
@@ -51,7 +53,8 @@ public class Adhesion implements Serializable{
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="adhesion_id_fk")
-	private Set<Reply> replies = new HashSet<>();
+	@NotEmpty
+	private Set<@Valid Reply> replies = new HashSet<>();
 	
 	// Já que as cobranças não são armazenadas nesse service precisei colocar o atributo como @Transient, ou seja, não é pra persistir
 	@Transient
@@ -120,6 +123,9 @@ public class Adhesion implements Serializable{
 	public void setReplies(Set<Reply> replies) {
 		this.replies = replies;
 	}
-	
+	public void addReply(Reply reply) {
+		if(!replies.contains(reply))
+			replies.add(reply);
+	}
 	
 }

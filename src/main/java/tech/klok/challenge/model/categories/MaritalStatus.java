@@ -3,6 +3,8 @@ package tech.klok.challenge.model.categories;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum MaritalStatus {
 	SINGLE("Single", 0L),
 	MARRIED("Married", 1L),
@@ -17,7 +19,7 @@ public enum MaritalStatus {
 		this.status = status;
 		this.id = id;
 	}
-	
+	@JsonValue
 	public String getStatus() {
 		return status;
 	}

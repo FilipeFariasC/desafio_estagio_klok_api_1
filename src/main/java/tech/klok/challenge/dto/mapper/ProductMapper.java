@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import tech.klok.challenge.dto.FieldDto;
 import tech.klok.challenge.dto.ProductDto;
+import tech.klok.challenge.dto.post.FieldPostDto;
 import tech.klok.challenge.dto.post.ProductPostDto;
 import tech.klok.challenge.model.Field;
 import tech.klok.challenge.model.Product;
@@ -25,7 +26,7 @@ public class ProductMapper {
 		product.setFields(productPostDto
 				.getFields()
 				.stream()
-				.map(this::fromDtoToField)
+				.map(this::fromPostDtoToField)
 				.collect(Collectors.toSet()));
 		
 		return product;
@@ -48,11 +49,15 @@ public class ProductMapper {
 				.stream()
 				.map(this::fromFieldToFieldDto)
 				.collect(Collectors.toSet()));
+		
 		return productDto;
 	}
 	
 	private FieldDto fromFieldToFieldDto(Field field) {
 		return modelMapper.map(field, FieldDto.class);
+	}
+	private Field fromPostDtoToField(FieldPostDto fieldDto) {
+		return modelMapper.map(fieldDto, Field.class);
 	}
 	private Field fromDtoToField(FieldDto fieldDto) {
 		return modelMapper.map(fieldDto, Field.class);

@@ -1,6 +1,6 @@
 package tech.klok.challenge.dto.post;
 
-import javax.persistence.Column;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

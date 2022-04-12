@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import tech.klok.challenge.dto.mapper.PaymentMapper;
 import tech.klok.challenge.dto.post.PaymentPostDto;
 import tech.klok.challenge.model.Payment;
 

@@ -18,6 +18,8 @@ public class AdhesionDto {
 	
 	private Long amount;
 	
+	private Integer numberOfInstallments;
+	
 	private Set<ReplyDto> replies = new HashSet<>();
 
 	
@@ -36,8 +38,6 @@ public class AdhesionDto {
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
-
-	
 
 	public LocalDate getAquisitionDate() {
 		return aquisitionDate;
@@ -70,4 +70,14 @@ public class AdhesionDto {
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
+
+	public Integer getNumberOfInstallments() {
+		return numberOfInstallments;
+	}
+
+	public void setNumberOfInstallments(Integer numberOfInstallments) {
+		this.numberOfInstallments = numberOfInstallments;
+	}
+	
+	
 }
