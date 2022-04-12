@@ -1,7 +1,7 @@
 package tech.klok.challenge.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class Charge implements Serializable{
 	private Double amount;
 	
 	@Column(name="charging_date", columnDefinition = "DATE")
-	private Date chargingDate;
+	private LocalDate chargingDate;
 	
 	@NotNull
 	private ChargeStatus status;
@@ -38,10 +38,10 @@ public class Charge implements Serializable{
 	private Payment payment;
 
 
-	public Date getChargingDate() {
+	public LocalDate getChargingDate() {
 		return chargingDate;
 	}
-	public void setChargingDate(Date chargingDate) {
+	public void setChargingDate(LocalDate chargingDate) {
 		this.chargingDate = chargingDate;
 	}
 	public Double getAmount() {

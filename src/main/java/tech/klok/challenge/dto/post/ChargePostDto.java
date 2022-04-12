@@ -12,7 +12,9 @@ public class ChargePostDto {
 	private LocalDate chargingDate;
 	
 	private ChargeStatus status;
+	
 	private Long paymentId;
+	
 	public Long getAdhesionId() {
 		return adhesionId;
 	}

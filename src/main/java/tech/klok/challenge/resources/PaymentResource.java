@@ -1,5 +1,6 @@
 package tech.klok.challenge.resources;
 
+import java.net.ConnectException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 
 import tech.klok.challenge.dto.PaymentDto;
 import tech.klok.challenge.dto.post.PaymentPostDto;
@@ -39,31 +41,38 @@ public class PaymentResource {
 			PaymentDto dto = mapToDto(payment);
 			
 			return ResponseEntity.ok(dto);
-		} catch(RestClientException exception) {
+		} catch(ResourceAccessException exception) {
 			return ResponseEntity.badRequest().body(exception.getMessage());
+		} catch(RestClientResponseException exception) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado uma cobrança com esse identificador");
 		}
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> getAll(){
-		List<PaymentDto> dtos = paymentService.getAll()
-				.stream()
-				.map(this::mapToDto)
-				.toList();
-		
-		return ResponseEntity.ok(dtos);
+		try {
+			List<PaymentDto> dtos = paymentService.getAll()
+					.stream()
+					.map(this::mapToDto)
+					.toList();
+	
+			return ResponseEntity.ok(dtos);
+		} catch(ResourceAccessException  exception) {
+			return ResponseEntity.badRequest().body("Não foi possível se conectar ao servidor");
+		} 
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Long id){
-		
 		try {
 			Payment payment = paymentService.getById(id);
 			
 			PaymentDto dto = mapToDto(payment);
 			
 			return ResponseEntity.ok(dto);
-		}catch(RestClientException exception) {
-			return ResponseEntity.badRequest().body(exception.getMessage());
+		} catch(ResourceAccessException exception) {
+			return ResponseEntity.badRequest().body("Não foi possível se conectar ao servidor");
+		} catch(RestClientResponseException exception) {
+			return ResponseEntity.badRequest().body("Não foi encontrado uma cobrança com esse identificador");
 		}
 	}
 	@DeleteMapping("/{id}")
@@ -71,8 +80,10 @@ public class PaymentResource {
 		try {
 			paymentService.deleteById(id);
 			return ResponseEntity.ok().build();
-		} catch(RestClientException exception) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+		} catch(ResourceAccessException exception) {
+			return ResponseEntity.badRequest().body("Não foi possível se conectar ao servidor");
+		} catch(RestClientResponseException exception) {
+			return ResponseEntity.badRequest().body("Não foi encontrado uma cobrança com esse identificador");
 		}
 	}
 	
